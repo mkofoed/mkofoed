@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    mkofoed.dk | 500
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block fullpage %}
+    <div class="container h-100 d-flex">
+        <div class="fluid-jumbotron my-auto" style="float: none; margin: 0 auto;">
+            <div class="text-center">
+                <h1 class="display-1 text-danger">404</h1>
+                <p class="h4 mb-4"><em>{{ request.path }}</em></p>
+                <p class="h4 mb-5">Something went wrong :(</p>
+                <a class="btn btn-block btn-outline-danger btn-lg" href="{% url 'blog:list' %}" role="button">Back to
+                    safety!</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

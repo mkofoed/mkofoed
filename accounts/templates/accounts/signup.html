@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card-body">
+            <h5 class="card-title">Create account:</h5>
+            <form method="post">
+                {% csrf_token %}
+                {% include 'includes/form.html' with form=form %}
+                <input type="submit" class="btn btn-success" value="Sign up"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

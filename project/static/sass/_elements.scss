@@ -1,0 +1,115 @@
+// project specific CSS goes here
+////////////////////////////////
+//Imports//
+////////////////////////////////
+@import "_navbar";
+@import "_colors";
+
+////////////////////////////////
+//Alerts//
+////////////////////////////////
+// bootstrap alert CSS, translated to the django-standard levels of
+// debug, info, success, warning, error
+.alert-debug {
+  background-color: $white;
+  border-color: $mint-green;
+  color: $black;
+}
+
+.alert-error {
+  background-color: $pink;
+  border-color: $dark-pink;
+  color: $red;
+}
+
+////////////////////////////////
+//Random stuff//
+////////////////////////////////
+// Body
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: $light-gray;
+}
+
+// Cards
+.card {
+  border-color: $light-green;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+
+  .card-title {
+    color: $light-green;
+  }
+}
+
+// Form inputs that are disabled
+.tools-inputs {
+  .form-control {
+    margin-top: 0.50rem;
+  }
+
+  :disabled {
+    background-color: $very-light-blue !important;
+    //margin-top: 0.25rem;
+  }
+}
+
+// Link colors
+a {
+  color: $light-green;
+}
+
+a:hover {
+  color: $very-light-green;
+}
+
+// Panes
+.right-pane {
+  padding-left: 0.25rem;
+  padding-right: 0;
+
+  .container-fluid {
+    padding: 0;
+  }
+}
+
+.left-pane {
+  padding-left: 0;
+  padding-right: 0.25rem;
+
+  .container-fluid {
+    padding: 0;
+  }
+}
+
+.middle-pane {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+
+  .container-fluid {
+    padding: 0;
+  }
+}
+
+// Forms
+.form-group {
+  width: 100%;
+}
+
+// Markdown editor
+.markdownx-preview {
+  display: none;
+}
+
+.markdownx-editor {
+  width: 100%;
+}
+
+.content-to-markdown, .content-html, .preview-html {
+  img {
+    max-width: 100%;
+  }
+}
+

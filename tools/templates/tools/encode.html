@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title display-4">
+                    Decode and encode URLs
+                </h5>
+                <div class="card-subtitle mb-2 text-muted">Input a URL to encode or an encoded URL to decode</div>
+                <div class="tools-inputs">
+                    <input type="text" class="form-control" id="toEncode" placeholder="URL to encode">
+                    <input type="text" class="form-control" id="encoded" placeholder="Encoded URL" disabled>
+                    <input type="text" class="form-control" id="toDecode" placeholder="URL to decode">
+                    <input type="text" class="form-control" id="decoded" placeholder="Decoded URL" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="application/javascript">
+        jQuery(document).ready(function () {
+            $("input[id^='to']").change(function () {
+                $.ajax({
+                    type: "get",
+                    url: "/api/encode/",
+                    data: {to_encode: $('#toEncode').val(), to_decode: $('#toDecode').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        $('#encoded').val(data['encoded']);
+                        $('#decoded').val(data['decoded']);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

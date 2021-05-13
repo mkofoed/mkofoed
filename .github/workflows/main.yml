@@ -1,0 +1,21 @@
+name: Deploy Django
+# This workflow is triggered on pushes to the repository.
+on: [ push ]
+
+jobs:
+  build:
+    # Job name is Greeting
+    name: Deploy
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      # Connect with SSH
+      - name: Set-up
+        run: echo "${{ secrets.SSH_KEY }}" > tmp.txt
+        # This step is necessary to avoid the error when using an unprotected private key file
+      - name: Chmod
+        run: chmod 600 tmp.txt
+      - name: Execute
+        run: ssh -i tmp.txt -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd mkofoed/ && make'
+      - name: Clean-up
+        run: rm tmp.txt

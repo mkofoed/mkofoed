@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title display-4">Pretty print dictionary or JSON</h5>
+                <div class="card-subtitle mb-2 text-muted">Input a Python dictionary or JSON object to prettify it</div>
+                <div class="tools-inputs">
+                    <textarea class="form-control" rows="10" id="toPprint"
+                              placeholder="Dict or JSON to pretty print"></textarea>
+                    <textarea class="form-control" rows="10" id="formatted" placeholder="Formatted JSON"
+                              disabled></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <script type="application/javascript">
+        jQuery(document).ready(function () {
+            $("textarea[id^='to']").change(function () {
+                console.log('LOL');
+                $.ajax({
+                    type: "get",
+                    url: "/api/pprint/",
+                    data: {to_pprint: $('#toPprint').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        $('#formatted').val(data['formatted']);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

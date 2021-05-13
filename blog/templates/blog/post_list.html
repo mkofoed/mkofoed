@@ -1,0 +1,26 @@
+{% extends "blog/post_base.html" %}
+
+{% block post_middle %}
+    {% if not object_list %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="card-title display-4">
+                    No posts to show :(
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% for object in object_list %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="card-title">
+                    <a class="card-title display-4" href="{% url 'blog:detail' object.slug %}">
+                        <h4>{{ object.title }}</h4></a>
+                </div>
+                <div class="card-subtitle mb-2">{{ object.summary }}</div>
+                <div class="card-subtitle mb-2 text-muted float-right">{{ object.author.get_name }}
+                    on {{ object.date_created|date }}</div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock post_middle %}

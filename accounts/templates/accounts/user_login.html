@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card-body">
+            <h5 class="card-title">Please Sign in:</h5>
+            <form method="post">
+                {% csrf_token %}
+                {% include 'includes/form.html' with form=form %}
+                <input type="submit" class="btn btn-secondary" value="Sign in"/>
+                {#                <a class="btn btn-primary float-right" href="{% url 'accounts:signup' %}" role="button">Sign up</a>#}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

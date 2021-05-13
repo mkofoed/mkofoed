@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block fullpage %}
+    <div class="container mt-2 px-0">
+        <form method="post">
+            <div class="row my-2">
+                <div class="col-md-4">
+                    {% if object %}
+                        <a class="btn btn-block btn-outline-success"
+                           href="{% url 'blog:detail' object.slug %}">Cancel</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    {% if object %}
+                        <a class="btn btn-block btn-outline-danger" href="{% url 'blog:delete' object.slug %}">Delete
+                            post</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-block btn-outline-success float-right"
+                           value="{% if object %}Update Post{% else %}Create Post{% endif %}"/>
+                </div>
+            </div>
+            {{ form.media }}
+
+            {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-body w-100">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                {% include 'includes/form_single_field.html' with field=form.title hide_label='yes' %}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                {% include 'includes/form_single_field.html' with field=form.published hide_label='yes' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                {% include 'includes/form_single_field.html' with field=form.summary hide_label='yes' %}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                {% include 'includes/form_single_field.html' with field=form.tags hide_label='yes' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Markdown content:</label>
+                            {{ form.content }}
+                        </div>
+                        <div class="col-sm-6">
+                            <label>HTML Preview:</label>
+                            <div class="preview-html">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+{% endblock fullpage %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css"
+          integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js"
+            integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+            crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.1/styles/tomorrow-night-eighties.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js"></script>
+
+    <script>
+        jQuery(document).ready(function () {
+            {# --- markdown editor --- #}
+            var contentInput = $('#id_content');
+            var previewContent = $('.preview-html');
+            var inputDirty = true;
+            var changeTimeout = null;
+
+            function handleContentChange() {
+                inputDirty = true;
+            }
+
+            contentInput.on('change keydown keyup', handleContentChange);
+
+            var delayTime = 1;
+
+            function checkForChanges() {
+                if (inputDirty) {
+                    inputDirty = false;
+                    var startTime = new Date();
+                    var parsed = marked(contentInput.val());
+                    previewContent.html(parsed);
+                    var endTime = new Date();
+                    delayTime = endTime - startTime;
+                    if (delayTime < 50) {
+                        delayTime = 50;
+                    } else if (delayTime > 500) {
+                        delayTime = 1000;
+                    }
+                    var math = document.getElementsByClassName('language-latex');
+                    for (var i = 0; i < math.length; i++) {
+                        try {
+                            katex.render(math[i].innerText, math[i]);
+                        } catch (e) {
+                        }
+                    }
+                }
+                $('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
+                changeTimeout = window.setTimeout(checkForChanges, delayTime);
+            }
+
+            checkForChanges();
+        });
+    </script>
+
+{% endblock javascript %}

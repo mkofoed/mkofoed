@@ -1,0 +1,57 @@
+{% extends "blog/post_base.html" %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title display-4">
+                    {{ object.title }}
+                </h5>
+                <div class="card-subtitle mb-2 text-muted">{{ object.author.get_name }}
+                    on {{ object.date_created|date }}</div>
+                <div class="card-text content-to-markdown">{{ object.content }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_buttons %}
+    <a class="btn btn-block btn-outline-secondary" href="{% url 'blog:update' object.slug %}">Update Post</a>
+    <a class="btn btn-block btn-danger" href="{% url 'blog:delete' object.slug %}">Delete post</a>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.1/styles/tomorrow-night-eighties.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.1/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css"
+          integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js"
+            integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx"
+            crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js"
+            integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe"
+            crossorigin="anonymous"></script>
+    <script>
+        jQuery(document).ready(function () {
+            $(".content-to-markdown").each(function () {
+                var contentToMarkdown = $(this).text();
+                var markedContent = marked(contentToMarkdown);
+                $(this).html(markedContent);
+            });
+            $('pre code').each(function (i, block) {
+                hljs.highlightBlock(block);
+            });
+            var math = document.getElementsByClassName('language-latex');
+            for (var i = 0; i < math.length; i++) {
+                try {
+                    katex.render(math[i].innerText, math[i]);
+                } catch (e) {
+                }
+            }
+        });
+    </script>
+{% endblock javascript %}

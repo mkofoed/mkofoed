@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block middle_pane %}
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title display-4">
+                    Parse dates
+                </h5>
+                <div class="card-subtitle mb-2 text-muted">
+                    Input a date string to parse, or simply put <em>now</em> to get the current datetime
+                </div>
+                <div class="tools-inputs">
+                    <input type="text" class="form-control" id="toParse"
+                           placeholder="Date string or UNIX timestamp to parse">
+                    <input type="text" class="form-control" id="parsed" placeholder="Parsed datetime as ISO datetime"
+                           disabled>
+                    <input type="text" class="form-control" id="asUnix" placeholder="Parsed datetime as UNIX timestamp"
+                           disabled>
+                    <input type="text" class="form-control" id="toFormat" placeholder="Format to strftime">
+                    <input type="text" class="form-control" id="formatted" placeholder="Formatted datetime" disabled>
+                    <button type="button" class="btn btn-outline-info btn-sm mt-2" data-toggle="modal"
+                            data-target="#modal">Guide to strftime
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Meaning</th>
+                        <th scope="col">Example</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in strftime %}
+                        <tr>
+                            <td>{{ row.0 }}</td>
+                            <td>{{ row.1 }}</td>
+                            <td>{{ row.2 }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <script type="application/javascript">
+        jQuery(document).ready(function () {
+            $("input[id^='to']").change(function () {
+                $.ajax({
+                    type: "get",
+                    url: "/api/date/",
+                    data: {to_parse: encodeURIComponent($('#toParse').val()), to_format: $('#toFormat').val()},
+                    dataType: "json",
+                    success: function (data) {
+                        $('#parsed').val(data['parsed']);
+                        $('#formatted').val(data['formatted']);
+                        $('#asUnix').val(data['unix']);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
