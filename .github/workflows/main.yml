@@ -11,11 +11,16 @@ jobs:
     steps:
       # Connect with SSH
       - name: Set-up
-        run: echo "${{ secrets.SSH_KEY }}" > tmp.txt
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: echo env.SSH_KEY > tmp.txt
         # This step is necessary to avoid the error when using an unprotected private key file
       - name: Chmod
         run: chmod 600 tmp.txt
       - name: Execute
-        run: ssh -i tmp.txt -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd mkofoed/ && make'
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          HOST: ${{ secrets.HOST}}
+        run: ssh -i tmp.txt -o StrictHostKeyChecking=no env.USERNAME@env.HOST 'cd mkofoed/ && make'
       - name: Clean-up
         run: rm tmp.txt
