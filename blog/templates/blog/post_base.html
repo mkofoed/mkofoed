@@ -18,7 +18,7 @@
 {% block right_pane %}
     {% if request.user.is_staff %}
         <div class="container-fluid">
-            <a href="{% url 'blog:create' %}" class="btn btn-block btn-success">New post</a>
+            <a href="{% url 'blog:create' %}" class="btn btn-block btn-outline-success">New post</a>
             {% block extra_buttons %}
             {% endblock extra_buttons %}
         </div>

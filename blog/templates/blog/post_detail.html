@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block extra_buttons %}
-    <a class="btn btn-block btn-warning" href="{% url 'blog:update' object.slug %}">Update Post</a>
-    <a class="btn btn-block btn-danger" href="{% url 'blog:delete' object.slug %}">Delete post</a>
+    <a class="btn btn-block btn-outline-warning" href="{% url 'blog:update' object.slug %}">Update Post</a>
+    <a class="btn btn-block btn-outline-danger" href="{% url 'blog:delete' object.slug %}">Delete post</a>
 {% endblock %}
 
 {% block javascript %}
