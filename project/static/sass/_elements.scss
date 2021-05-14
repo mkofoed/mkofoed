@@ -22,16 +22,14 @@
   color: $red;
 }
 
-////////////////////////////////
-//Random stuff//
-////////////////////////////////
+//////////////////
+// Random stuff //
+//////////////////
+
 // Body
 html, body {
   height: 100%;
-  color: white;
-}
-
-body {
+  color: $white; // Default font color
   background-color: $dark-gray;
 }
 
@@ -46,15 +44,22 @@ body {
   }
 }
 
+.form-control{
+  border-color: $light-green;
+  background-color: $medium-dark-gray;
+}
+
 // Form inputs that are disabled
 .tools-inputs {
   .form-control {
     margin-top: 0.50rem;
+    background-color: $light-gray;
+    border-color: $light-green;
   }
 
   :disabled {
-    background-color: $very-light-blue !important;
-    //margin-top: 0.25rem;
+    background-color: $medium-dark-gray !important;
+    color: $white;
   }
 }
 
@@ -107,6 +112,9 @@ a:hover {
 
 .markdownx-editor {
   width: 100%;
+  background-color: $medium-dark-gray;
+  border-color: $light-green;
+  color: $white;
 }
 
 .content-to-markdown, .content-html, .preview-html {
