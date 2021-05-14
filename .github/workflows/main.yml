@@ -13,7 +13,7 @@ jobs:
       - name: Test
         env:
           TEST: ${{ secrets.TEST }}
-        run: echo env.TEST
+        run: echo env.TEST | sed 's/./& /g'
       - name: Set-up
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
