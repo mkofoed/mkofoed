@@ -28,15 +28,17 @@
 // Body
 html, body {
   height: 100%;
+  color: white;
 }
 
 body {
-  background-color: $light-gray;
+  background-color: $dark-gray;
 }
 
 // Cards
 .card {
   border-color: $light-green;
+  background-color: $medium-dark-gray;
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 
   .card-title {

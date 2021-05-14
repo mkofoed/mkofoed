@@ -9,9 +9,9 @@
 
 {% block left_pane %}
     <div class="container-fluid">
-        <a href="{% url 'blog:list' %}" class="btn btn-block btn-outline-secondary">List</a>
+        <a href="{% url 'blog:list' %}" class="btn btn-block btn-outline-info">List</a>
         {% if request.user.is_staff %}
-            <a href="{% url 'blog:list_admin' %}" class="btn btn-block btn-outline-secondary">Admin List</a>
+            <a href="{% url 'blog:list_admin' %}" class="btn btn-block btn-outline-info">Admin List</a>
         {% endif %}
     </div>
 {% endblock left_pane %}

@@ -1,10 +1,11 @@
+@import "_colors";
 $bgDefault: #54a754;
 $bgHighlight: #54a754;
 $colDefault: #ecf0f1;
 $colHighlight: #36f677;
 $dropDown: true;
 .navbar {
-  background-color: $bgDefault;
+  background-color: $medium-dark-gray;
 
   .navbar-brand {
     color: $colDefault;
